@@ -28,18 +28,16 @@ class Player:
     date_de_naissance: str
     sexe: int
     points: float
-    classement: int
 
     def __str__(self):
         return f'{self.prenom} {self.nom_de_famille}'
 
-    def __init__(self, nom_de_famille, prenom, date_de_naissance, sexe, points, classement):
+    def __init__(self, nom_de_famille, prenom, date_de_naissance, sexe, points):
         self.nom_de_famille = nom_de_famille
         self.prenom = prenom
         self.date_de_naissance = date_de_naissance
         self.sexe = sexe
         self.points = points
-        self.classement = classement
 
 
 class Match:

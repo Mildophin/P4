@@ -70,6 +70,9 @@ class TournamentView:
             sexe = 'Femme'
         return nom_de_famille, prenom, date_de_naissance, sexe
 
+    def current_tour(self, tour):
+        print(f"Tour N°{tour+1}")
+
     def result_of_a_match(self, player1, player2):
         print(f"Qui est le gagnant du duel {player1} vs {player2}?")
         print(f"{player1} = 0, {player2} = 1, equality = 2")

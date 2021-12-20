@@ -21,8 +21,7 @@ class TournamentController:
                                     prenom=serialized_table[player]['prenom'],
                                     date_de_naissance=serialized_table[player]['date_de_naissance'],
                                     sexe=serialized_table[player]['sexe'],
-                                    points=serialized_table[player]['points'],
-                                    classement=serialized_table[player]['classement'])
+                                    points=serialized_table[player]['points'])
                     players_list.append(player)
                 nom = serialized_tournament['nom']
                 lieu = serialized_tournament['lieu']
@@ -78,7 +77,7 @@ class TournamentController:
         for i in range(0, 8):
             player = TournamentView().declare_a_player(i + 1)
             player = Player(nom_de_famille=player[0], prenom=player[1], date_de_naissance=player[2],
-                            sexe=player[3], points=0, classement=0)
+                            sexe=player[3], points=0)
             tournament.joueurs.append(player)
 
             # partie serialisation
@@ -87,8 +86,7 @@ class TournamentController:
                 'prenom': player.prenom,
                 'date_de_naissance': player.date_de_naissance,
                 'sexe': player.sexe,
-                'points': player.points,
-                'classement': player.classement
+                'points': player.points
             }
             serialized_players.append(serialized_player)
 
@@ -103,6 +101,9 @@ class TournamentController:
         """
         Lancement des tournois entre les joueurs
         """
+
+        TournamentView().current_tour(len(tournament.tournees))
+
         players = tournament.joueurs
 
         middle = int(len(players) / 2)
@@ -170,6 +171,11 @@ class TournamentController:
             for i in range(len(tournament.joueurs)):
                 player = tournament.joueurs[i]
                 player.classement = TournamentView().update_player(player, match)
+        self.define_matches(tournament)
+
+    def menu(self, tournament):
+        menu_panel = TournamentView().menu_home()
+
         self.define_matches(tournament)
 
     def __str__(self):
