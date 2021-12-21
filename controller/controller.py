@@ -4,40 +4,64 @@ from tinydb import TinyDB, Query
 
 
 class TournamentController:
-    def start_tournament(self):
+    def menu(self):
+        menu_panel = TournamentView().menu_home()
+        if menu_panel == 0:
+            self.create_tournament()
+        if menu_panel == 1:
+            self.load_tournament()
+        if menu_panel == 2:
+            self.report_menu()
+        else:
+            print('Error Menu')
+
+    def report_menu(self):
+        menu_panel = TournamentView().menu_report()
+        if menu_panel == 0:
+            db = TinyDB('db.json')
+            players_table = db.table('players')
+            serialized_table = players_table.all()
+        if menu_panel == 1:
+            self.
+        if menu_panel == 2:
+            self.
+        if menu_panel == 3:
+            self.
+        if menu_panel == 4:
+            self.
+        else:
+            print('Error Report Menu')
+
+    def load_tournament(self):
         db = TinyDB('db.json')
         tournament_table = db.table('tournament')
         if len(tournament_table.all()) >= 1:
-            answer = TournamentView().take_back_tournament()
-            if answer == 0:
-                self.create_tournament()
+            serialized_tournament = tournament_table.get(doc_id=len(tournament_table))
+            players_table = db.table('players')
+            serialized_table = players_table.all()
+            players_list = []
+            for player in range(0, len(serialized_table)):
+                player = Player(nom_de_famille=serialized_table[player]['nom_de_famille'],
+                                prenom=serialized_table[player]['prenom'],
+                                date_de_naissance=serialized_table[player]['date_de_naissance'],
+                                sexe=serialized_table[player]['sexe'],
+                                points=serialized_table[player]['points'])
+                players_list.append(player)
+            nom = serialized_tournament['nom']
+            lieu = serialized_tournament['lieu']
+            date = serialized_tournament['date']
+            nombre_tours = serialized_tournament['nombre_tours']
+            temps = serialized_tournament['temps']
+            description = serialized_tournament['description']
+            tournament = Tournament(nom=nom, lieu=lieu, date=date, nombre_tours=nombre_tours, joueurs=players_list,
+                                    temps=temps, description=description, tournees=[])
+            if len(players_list) > 0:
+                self.define_matches(tournament)
             else:
-                serialized_tournament = tournament_table.get(doc_id=len(tournament_table))
-                players_table = db.table('players')
-                serialized_table = players_table.all()
-                players_list = []
-                for player in range(0, len(serialized_table)):
-                    player = Player(nom_de_famille=serialized_table[player]['nom_de_famille'],
-                                    prenom=serialized_table[player]['prenom'],
-                                    date_de_naissance=serialized_table[player]['date_de_naissance'],
-                                    sexe=serialized_table[player]['sexe'],
-                                    points=serialized_table[player]['points'])
-                    players_list.append(player)
-                nom = serialized_tournament['nom']
-                lieu = serialized_tournament['lieu']
-                date = serialized_tournament['date']
-                nombre_tours = serialized_tournament['nombre_tours']
-                temps = serialized_tournament['temps']
-                description = serialized_tournament['description']
-                tournament = Tournament(nom=nom, lieu=lieu, date=date, nombre_tours=nombre_tours, joueurs=players_list,
-                                        temps=temps, description=description, tournees=[])
-                if len(players_list) > 0:
-                    self.define_matches(tournament)
-                else:
-                    self.define_players(tournament)
-                    # verif players
+                self.define_players(tournament)
+                # verif players
         else:
-            self.create_tournament()
+            self.menu()
 
     def create_tournament(self):
         """
@@ -170,13 +194,8 @@ class TournamentController:
         if result:
             for i in range(len(tournament.joueurs)):
                 player = tournament.joueurs[i]
-                player.classement = TournamentView().update_player(player, match)
-        self.define_matches(tournament)
-
-    def menu(self, tournament):
-        menu_panel = TournamentView().menu_home()
-
-        self.define_matches(tournament)
+                player.classement = TournamentView().update_player(player)
+        self.menu(tournament)
 
     def __str__(self):
         return self.name

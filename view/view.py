@@ -36,12 +36,6 @@ class TournamentView:
 
     # Partie view
 
-    def take_back_tournament(self):
-        print('Reprendre le dernier tournoi?')
-        print('Oui = 1, Non = 0')
-        response = self.verify_x_options(2)
-        return response
-
     def create_tournament(self):
         print('Création du tournoi')
         nom = input("Nom du tournoi: ")
@@ -88,10 +82,20 @@ class TournamentView:
         else:
             return True
 
-    def update_player(self, player, match):
+    def update_player(self, player):
         print(f"Le joueur {player} a {player.points} points ?")
         result = self.verify_integer()
         return result
 
-    def menu(self):
+    def menu_home(self):
         print("Menu principal")
+        print("0: Commencer un nouveau tournoi, 1: Reprendre le dernier tournoi, 2: Voir les rapports")
+        result = self.verify_x_options(3)
+        return result
+
+    def menu_report(self):
+        print("Menu principal")
+        print("0: Liste de tout les acteurs, 1: Liste de tout les joueurs d'un tournoi, 2: Liste de tous les tournois,"
+              "3: Liste de tous les tours d'un tournoi, 4: Liste de tous les matchs d'un tournoi")
+        result = self.verify_x_options(5)
+        return result
