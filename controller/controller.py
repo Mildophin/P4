@@ -17,18 +17,53 @@ class TournamentController:
 
     def report_menu(self):
         menu_panel = TournamentView().menu_report()
+        db = TinyDB('db.json')
+        tournament_table = db.table('tournament')
+        tournament_table = tournament_table.all()
+        players_table = db.table('players')
+        players_table = players_table.all()
+
         if menu_panel == 0:
-            db = TinyDB('db.json')
-            players_table = db.table('players')
-            serialized_table = players_table.all()
+            players_list = []
+            for player in range(0, len(players_table)):
+                player = {"nom_de_famille": players_table[player]['nom_de_famille'],
+                          "prenom": players_table[player]['prenom'],
+                          "date_de_naissance": players_table[player]['date_de_naissance'],
+                          "sexe": players_table[player]['sexe'],
+                          "points": players_table[player]['points']}
+                players_list.append(player)
+
+            order_option = TournamentView().order_players()
+            if order_option == 0:
+                players_list.sort(key=lambda x: x['nom_de_famille'])
+            else:
+                players_list.sort(key=lambda x: x['points'], reverse=True)
+
+            TournamentView().view_players(players_list)
+            self.report_menu()
+
         if menu_panel == 1:
-            self.
+            pass
         if menu_panel == 2:
-            self.
+            tournaments_list = []
+            for tournament in range(0, len(tournament_table)):
+                tournament = {"nom": tournament_table[tournament]['nom'],
+                              "lieu": tournament_table[tournament]['lieu'],
+                              "date": tournament_table[tournament]['date'],
+                              "nombre_tours": tournament_table[tournament]['nombre_tours'],
+                              "temps": tournament_table[tournament]['temps'],
+                              "description": tournament_table[tournament]['description']}
+                tournaments_list.append(tournament)
+
+            TournamentView().view_tournaments(tournaments_list)
+            self.report_menu()
+
         if menu_panel == 3:
-            self.
+            pass
         if menu_panel == 4:
-            self.
+            pass
+        if menu_panel == 5:
+            self.menu()
         else:
             print('Error Report Menu')
 
@@ -41,12 +76,15 @@ class TournamentController:
             serialized_table = players_table.all()
             players_list = []
             for player in range(0, len(serialized_table)):
-                player = Player(nom_de_famille=serialized_table[player]['nom_de_famille'],
-                                prenom=serialized_table[player]['prenom'],
-                                date_de_naissance=serialized_table[player]['date_de_naissance'],
-                                sexe=serialized_table[player]['sexe'],
-                                points=serialized_table[player]['points'])
+                player = {
+                    'nom_de_famille': serialized_table[player]['nom_de_famille'],
+                    'prenom': serialized_table[player]['prenom'],
+                    'date_de_naissance': serialized_table[player]['date_de_naissance'],
+                    'sexe': serialized_table[player]['sexe'],
+                    'points': serialized_table[player]['points']
+                }
                 players_list.append(player)
+
             nom = serialized_tournament['nom']
             lieu = serialized_tournament['lieu']
             date = serialized_tournament['date']

@@ -96,6 +96,27 @@ class TournamentView:
     def menu_report(self):
         print("Menu principal")
         print("0: Liste de tout les acteurs, 1: Liste de tout les joueurs d'un tournoi, 2: Liste de tous les tournois,"
-              "3: Liste de tous les tours d'un tournoi, 4: Liste de tous les matchs d'un tournoi")
-        result = self.verify_x_options(5)
+              "3: Liste de tous les tours d'un tournoi, 4: Liste de tous les matchs d'un tournoi, 5: Retour menu")
+        result = self.verify_x_options(6)
+        return result
+
+    def order_players(self):
+        print("0: Ordonner par ordre alphabétique, 1: Ordonner par classemment")
+        result = self.verify_x_options(2)
+        return result
+
+    def view_players(self, players_list):
+        print("Rapport de tous les joueurs")
+        for player in players_list:
+            print(f"{player['prenom']} {player['nom_de_famille']}")
+        print("Write 0 to leave the report")
+        result = self.verify_x_options(1)
+        return result
+
+    def view_tournaments(self, tournaments_list):
+        print("Rapport de tous les tournois")
+        for tournament in tournaments_list:
+            print(f"{tournament['nom']}")
+        print("Write 0 to leave the report")
+        result = self.verify_x_options(1)
         return result
