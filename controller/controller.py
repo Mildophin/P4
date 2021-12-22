@@ -43,7 +43,30 @@ class TournamentController:
             self.report_menu()
 
         if menu_panel == 1:
-            pass
+            tournaments_list = []
+            for tournament in range(0, len(tournament_table)):
+                tournament = {"nom": tournament_table[tournament]['nom']}
+                tournaments_list.append(tournament)
+            result = TournamentView().pick_tournament(tournaments_list)
+
+            players_list = []
+            for player in range((0+result*8), 8+result*8):
+                player = {"nom_de_famille": players_table[player]['nom_de_famille'],
+                          "prenom": players_table[player]['prenom'],
+                          "date_de_naissance": players_table[player]['date_de_naissance'],
+                          "sexe": players_table[player]['sexe'],
+                          "points": players_table[player]['points']}
+                players_list.append(player)
+
+            order_option = TournamentView().order_players()
+            if order_option == 0:
+                players_list.sort(key=lambda x: x['nom_de_famille'])
+            else:
+                players_list.sort(key=lambda x: x['points'], reverse=True)
+
+            TournamentView().view_players(players_list)
+            self.report_menu()
+
         if menu_panel == 2:
             tournaments_list = []
             for tournament in range(0, len(tournament_table)):
@@ -59,9 +82,19 @@ class TournamentController:
             self.report_menu()
 
         if menu_panel == 3:
-            pass
+            tournaments_list = []
+            for tournament in range(0, len(tournament_table)):
+                tournament = {"nom": tournament_table[tournament]['nom']}
+                tournaments_list.append(tournament)
+            result = TournamentView().pick_tournament(tournaments_list)
+
         if menu_panel == 4:
-            pass
+            tournaments_list = []
+            for tournament in range(0, len(tournament_table)):
+                tournament = {"nom": tournament_table[tournament]['nom']}
+                tournaments_list.append(tournament)
+            result = TournamentView().pick_tournament(tournaments_list)
+
         if menu_panel == 5:
             self.menu()
         else:

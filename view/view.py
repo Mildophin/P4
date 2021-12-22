@@ -65,7 +65,7 @@ class TournamentView:
         return nom_de_famille, prenom, date_de_naissance, sexe
 
     def current_tour(self, tour):
-        print(f"Tour N°{tour+1}")
+        print(f"Tour N°{tour + 1}")
 
     def result_of_a_match(self, player1, player2):
         print(f"Qui est le gagnant du duel {player1} vs {player2}?")
@@ -119,4 +119,13 @@ class TournamentView:
             print(f"{tournament['nom']}")
         print("Write 0 to leave the report")
         result = self.verify_x_options(1)
+        return result
+
+    def pick_tournament(self, tournaments_list):
+        print("Choisissez le tournoi")
+        i = 0
+        for tournament in tournaments_list:
+            print(f"{i}: {tournament['nom']}")
+            i = + 1
+        result = self.verify_x_options(len(tournaments_list))
         return result
