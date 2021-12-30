@@ -89,14 +89,6 @@ class TournamentController:
         else:
             print('Error Report Menu')
 
-    def update_classement(self):
-        result = TournamentView().update_tournament()
-        if result:
-            for i in range(len(tournament.joueurs)):
-                player = tournament.joueurs[i]
-                player.classement = TournamentView().update_player(player)
-        self.menu()
-
     def load_tournament(self):
         tournament_table = db.table('tournament')
         if len(tournament_table.all()) >= 1:
