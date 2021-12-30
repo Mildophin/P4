@@ -1,9 +1,12 @@
-from view import TournamentView
-from model import Tournament, Player
-from tinydb import TinyDB, Query
+from views import TournamentView
+from models import Tournament, Player, Report
+from tinydb import TinyDB
 
 
 class TournamentController:
+    global db
+    db = TinyDB('db.json')
+
     def menu(self):
         menu_panel = TournamentView().menu_home()
         if menu_panel == 0:
@@ -11,43 +14,36 @@ class TournamentController:
         if menu_panel == 1:
             self.load_tournament()
         if menu_panel == 2:
+            self.update_classement()
+        if menu_panel == 3:
             self.report_menu()
         else:
             print('Error Menu')
 
     def report_menu(self):
         menu_panel = TournamentView().menu_report()
-        db = TinyDB('db.json')
+
         tournament_table = db.table('tournament')
         tournament_table = tournament_table.all()
         players_table = db.table('players')
         players_table = players_table.all()
 
-        if menu_panel == 0:
-            players_list = []
-            for player in range(0, len(players_table)):
-                player = {"nom_de_famille": players_table[player]['nom_de_famille'],
-                          "prenom": players_table[player]['prenom'],
-                          "date_de_naissance": players_table[player]['date_de_naissance'],
-                          "sexe": players_table[player]['sexe'],
-                          "points": players_table[player]['points']}
-                players_list.append(player)
+        if menu_panel in (0, 1):
+            result = 0
+            if menu_panel == 1:
+                tournaments_list = []
+                for tournament in range(0, len(tournament_table)):
+                    tournament = {"nom": tournament_table[tournament]['nom']}
+                    tournaments_list.append(tournament)
+                result = TournamentView().pick_tournament(tournaments_list)
 
-            order_option = TournamentView().order_players()
-            if order_option == 0:
-                players_list.sort(key=lambda x: x['nom_de_famille'])
-            else:
-                players_list.sort(key=lambda x: x['points'], reverse=True)
+                """
+                report_final = Report()
 
-            TournamentView().view_players(players_list)
-            self.report_menu()
+                report = report_final.get_players_list()
 
-        if menu_panel == 1:
-            tournaments_list = []
-            for tournament in range(0, len(tournament_table)):
-                tournament = {"nom": tournament_table[tournament]['nom']}
-                tournaments_list.append(tournament)
-            result = TournamentView().pick_tournament(tournaments_list)
+                TournamentView().show_results(report)
+                """
 
             players_list = []
             for player in range((0+result*8), 8+result*8):
@@ -81,14 +77,7 @@ class TournamentController:
             TournamentView().view_tournaments(tournaments_list)
             self.report_menu()
 
-        if menu_panel == 3:
-            tournaments_list = []
-            for tournament in range(0, len(tournament_table)):
-                tournament = {"nom": tournament_table[tournament]['nom']}
-                tournaments_list.append(tournament)
-            result = TournamentView().pick_tournament(tournaments_list)
-
-        if menu_panel == 4:
+        if menu_panel in (3, 4):
             tournaments_list = []
             for tournament in range(0, len(tournament_table)):
                 tournament = {"nom": tournament_table[tournament]['nom']}
@@ -100,8 +89,15 @@ class TournamentController:
         else:
             print('Error Report Menu')
 
+    def update_classement(self):
+        result = TournamentView().update_tournament()
+        if result:
+            for i in range(len(tournament.joueurs)):
+                player = tournament.joueurs[i]
+                player.classement = TournamentView().update_player(player)
+        self.menu()
+
     def load_tournament(self):
-        db = TinyDB('db.json')
         tournament_table = db.table('tournament')
         if len(tournament_table.all()) >= 1:
             serialized_tournament = tournament_table.get(doc_id=len(tournament_table))
@@ -155,7 +151,7 @@ class TournamentController:
             'description': tournament.description
         }
 
-        db = TinyDB('db.json')
+
         players_table = db.table('tournament')
         players_table.truncate()
         players_table.insert(serialized_tournament)
@@ -185,7 +181,7 @@ class TournamentController:
             }
             serialized_players.append(serialized_player)
 
-        db = TinyDB('db.json')
+
         players_table = db.table('players')
         players_table.truncate()
         players_table.insert_multiple(serialized_players)
@@ -245,7 +241,6 @@ class TournamentController:
             }
             serialized_matches.append(serialized_match)
 
-        db = TinyDB('db.json')
         matches_table = db.table('matches')
         if len(tournament.tournees) == 0:
             matches_table.truncate()
@@ -256,17 +251,10 @@ class TournamentController:
 
         # changer le classement des joueurs ? mettre une option 0 / 1
         if len(tournament.tournees) < int(tournament.nombre_tours):
-            self.update_classement(tournament)
+            self.menu()
         else:
             print("finish")
 
-    def update_classement(self, tournament):
-        result = TournamentView().update_tournament()
-        if result:
-            for i in range(len(tournament.joueurs)):
-                player = tournament.joueurs[i]
-                player.classement = TournamentView().update_player(player)
-        self.menu(tournament)
 
     def __str__(self):
         return self.name
