@@ -125,9 +125,9 @@ class MainMenu(View):
             assertions=["0", "1", "q"]
         )
         if user_input == "0":
-            for i, player in enumerate(rankings):
+            for ranking_number, player in enumerate(rankings):
                 print(player.name)
-                update_rankings(player, i + 1)
+                update_rankings(player, ranking_number + 1)
 
         elif user_input == "1":
             for player in rankings:

@@ -128,10 +128,10 @@ def play_tournament(tournament, new_tournament_loaded=False):
                 # Sauvegarder le tournoi
                 elif user_input == "3":
                     rankings = tournament.get_rankings()
-                    for i, player in enumerate(rankings):
+                    for loop_number, player in enumerate(rankings):
                         for t_player in tournament.players:
                             if player.name == t_player.name:
-                                t_player.rank = str(i + 1)
+                                t_player.rank = str(loop_number + 1)
                     update_db("tournaments", tournament.get_serialized_tournament(save_rounds=True))
 
                 # Charger un tournoi
@@ -152,11 +152,11 @@ def play_tournament(tournament, new_tournament_loaded=False):
 
     # Une fois le tournoi terminé, on le save dans la bdd puis on retourne les résultats
     rankings = tournament.get_rankings()
-    for i, player in enumerate(rankings):
+    for ranking_number, player in enumerate(rankings):
         for t_player in tournament.players:
             if player.name == t_player.name:
                 t_player.total_score += player.tournament_score
-                t_player.rank = str(i+1)
+                t_player.rank = str(ranking_number+1)
     update_db("tournaments", tournament.get_serialized_tournament(save_rounds=True))
     return rankings
 

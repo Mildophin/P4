@@ -9,13 +9,14 @@ class Report(View):
         self.players = load_db("players")
         self.tournaments = load_db("tournaments")
 
-    def display_players_report(self, players=[]):
+    def display_players_report(self, players=None):
 
         # Si on veux afficher les joueurs classés d'un tournoi en particulier, on passe True à
-        # tournaments_player et on donne une liste de joueurs en arguement.
+        # tournaments_player et on donne une liste de joueurs en argument.
         # Si on ne précise rien, c'est tout les joueurs enregistrés dans la bdd qui seront chargés.
 
-        players = players
+        if players is None:
+            players = []
 
         builded_selection = self.build_selection(iterable=players,
                                                  display_msg="Voir les détails d'un joueur:\n",
@@ -25,7 +26,7 @@ class Report(View):
             print("Classement: ")
 
             # Affichage du classement
-            # Choix d'un joueur dans le classement afin de voir ses détails
+            # Choix d'un joueur dans le classement afin de voir ses informations
             user_input = self.get_user_entry(
                 msg_display=builded_selection['msg'] + "r - Retour\n> ",
                 msg_error="Veuillez faire un choix valide.",
@@ -39,15 +40,15 @@ class Report(View):
             else:
                 selected_player = players[int(user_input)-1]
 
-                # Affichage des détails du joueur
+                # Affichage des informations du joueur
                 while True:
                     print(f"Détails du joueur {selected_player['name']}:")
                     print(f"Rang: {selected_player['rank']}\n"
                           f"Score total: {selected_player['total_score']}\n"
                           f"Nom: {selected_player['name']}\n"
                           f"Prénom: {selected_player['first_name']}\n"
-                          f"Date de naissance: {selected_player['dob']}\n"
-                          f"Sexe: {selected_player['sex']}\n"
+                          f"Date de naissance: {selected_player['date_of_birth']}\n"
+                          f"Sexe: {selected_player['gender']}\n"
                           )
 
                     user_input = self.get_user_entry(
