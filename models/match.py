@@ -1,5 +1,4 @@
 import random
-from views.view import TournamentView as View
 
 
 class Match:
@@ -13,7 +12,7 @@ class Match:
         self.winner = ""
         self.name = name
 
-    def __repr__(self):
+    def __str__(self):
         return ([self.player1, self.score_player1],
                 [self.player2, self.score_player2])
 
@@ -25,23 +24,7 @@ class Match:
             self.color_player1 = "Noir"
             self.color_player2 = "Blanc"
 
-    def play_match(self):
-
-        # Assignation des couleurs
-        self.assign_colors()
-
-        # Match joué, on rentre les scores
-        winner = View().get_user_entry(
-            msg_display=f"{self.player1.first_name} ({self.color_player1}) VS " +
-                        f"{self.player2.first_name} ({self.color_player2})\n"
-                        f"Gagnant ?\n"
-                        f"0 - {self.player1.first_name} ({self.color_player1})\n"
-                        f"1 - {self.player2.first_name} ({self.color_player2})\n"
-                        f"2 - Égalité\n> ",
-            msg_error="Veuillez entrer 0, 1 ou 2.",
-            value_type="selection",
-            assertions=["0", "1", "2"]
-        )
+    def play_match(self, winner):
 
         if winner == "0":
             self.winner = self.player1.first_name
@@ -53,6 +36,10 @@ class Match:
             self.winner = "Égalité"
             self.score_player1 += 0.5
             self.score_player2 += 0.5
+
+        # Mettre une exception
+        else:
+            raise Exception
 
         self.player1.tournament_score += self.score_player1
         self.player2.tournament_score += self.score_player2

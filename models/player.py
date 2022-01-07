@@ -1,11 +1,11 @@
 
 
 class Player:
-    def __init__(self, name, first_name, date_of_birth, sex, total_score, rank=0):
+    def __init__(self, name, first_name, date_of_birth, gender, total_score, rank=0):
         self.name = name
         self.first_name = first_name
         self.date_of_birth = date_of_birth
-        self.sex = sex
+        self.gender = gender
         self.total_score = total_score
         self.tournament_score = 0
         self.rank = rank
@@ -19,7 +19,7 @@ class Player:
             "name": self.name,
             "first_name": self.first_name,
             "date_of_birth": self.date_of_birth,
-            "sex": self.sex,
+            "gender": self.gender,
             "total_score": self.total_score,
             "rank": self.rank,
         }

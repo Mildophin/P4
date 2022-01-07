@@ -1,5 +1,6 @@
 from controller.timestamp import get_timestamp
 from models.match import Match
+from controller.results import result_match
 
 
 class Round:
@@ -32,7 +33,9 @@ class Round:
         print(f"{self.end_date} : {self.name} terminé.")
         print("Rentrer les résultats des matchs:")
         for match in self.matchs:
-            match.play_match()
+            match.assign_colors()
+            winner = result_match(match)
+            match.play_match(winner)
 
     def get_serialized_round(self):
         ser_players_pairs = []

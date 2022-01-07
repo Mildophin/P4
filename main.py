@@ -1,4 +1,4 @@
-from controller import TournamentController
+from views.main_menu import MainMenu
 
 if __name__ == "__main__":
-    TournamentController().menu()
+    MainMenu().display_main_menu()
