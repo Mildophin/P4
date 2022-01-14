@@ -1,7 +1,7 @@
 # Projet 4 du parcours python d'OC : Tournoi d'échecs
 Ce programme est un gestionnaire de tournois d'échecs dans le cadre d'un projet d'OC
 ## Installation:
-Premièrement installer Python (https://www.python.org/downloads/).
+Premièrement, installer Python 3.9 ou plus récent (https://www.python.org/downloads/).
 Lancez ensuite la console, placez vous dans le dossier de votre choix puis clonez ce repository:
 ```
 git clone https://github.com/Mildophin/P4.git
