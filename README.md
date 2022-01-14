@@ -45,7 +45,7 @@ Le menu principal est divisé en 4 options différentes.
 - Cette section vous permet de générer différents rapport.
 - Vous pouvez consulter: le classement global des joueurs par classement et ordre alphabétique.
 - Les détails des tournois passés: classement des joueurs du tournoi, tours et matchs de chaque tournois.
-### 5) Générer le rapport Flake8
+## Générer le rapport Flake8
 - Installez flake8 avec la commande: 
 ```
 pip install flake8-html
