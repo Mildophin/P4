@@ -19,7 +19,6 @@ def create_player():
 
     # serialization:
     serialized_player = player.get_serialized_player()
-    print(serialized_player)
 
     # Sauvegarde du joueur dans la database
     save_db("players", serialized_player)
@@ -34,4 +33,4 @@ def update_rankings(player, rank, score=True):
     serialized_player = player.get_serialized_player(save_tournament_score=True)
     print(serialized_player['name'])
     update_player_rank("players", serialized_player)
-    print(f"Update du rang de {player}:\nScore total: {player.total_score}\nRang: {player.rank}")
+    print(f"Mise à jour du rang de {player}:\nScore total: {player.total_score}\nRang: {player.rank}")

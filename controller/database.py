@@ -1,5 +1,5 @@
 from pathlib import Path
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 from tinydb import where
 from models.player import Player
 from models.tournament import Tournament
@@ -17,7 +17,7 @@ def save_db(db_name, serialized_data):
         db = TinyDB("data/" + db_name + ".json")
 
     db.insert(serialized_data)
-    print(f"{serialized_data['name']} sauvegardé avec succès.")
+    print(f"{serialized_data['name']} sauvegardé(e) avec succès.")
 
 
 def update_db(db_name, serialized_data):
@@ -26,7 +26,7 @@ def update_db(db_name, serialized_data):
         serialized_data,
         where('name') == serialized_data['name']
     )
-    print(f"{serialized_data['name']} updaté avec succès.")
+    print(f"{serialized_data['name']} mis(e) à jour avec succès.")
 
 
 def update_player_rank(db_name, serialized_data):
@@ -35,7 +35,7 @@ def update_player_rank(db_name, serialized_data):
             {'rank': serialized_data['rank'], 'total_score': serialized_data['total_score']},
             where('name') == serialized_data['name']
     )
-    print(f"{serialized_data['name']} updaté avec succès.")
+    print(f"{serialized_data['name']} mis(e) à jour avec succès.")
 
 
 def load_db(db_name):

@@ -25,7 +25,6 @@ class Match:
             self.color_player2 = "Blanc"
 
     def play_match(self, winner):
-
         if winner == "0":
             self.winner = self.player1.first_name
             self.score_player1 += 1

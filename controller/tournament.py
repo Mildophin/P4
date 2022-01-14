@@ -159,5 +159,3 @@ def play_tournament(tournament, new_tournament_loaded=False):
                 t_player.rank = str(ranking_number+1)
     update_db("tournaments", tournament.get_serialized_tournament(save_rounds=True))
     return rankings
-
-

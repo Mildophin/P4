@@ -47,14 +47,14 @@ class LoadPlayer(View):
 
         all_players = load_db("players")
         serialized_loaded_players = []
-        for i in range(nb_players_to_load):
-            print(f"Plus que {str(nb_players_to_load - i)} joueurs à charger.")
+        for total_players in range(nb_players_to_load):
+            print(f"Plus que {str(nb_players_to_load - total_players)} joueurs à charger.")
             display_msg = "Choisir un joueur:\n"
 
             assertions = []
-            for i, player in enumerate(all_players):
-                display_msg = display_msg + f"{str(i+1)} - {player['first_name']} {player['name']}\n"
-                assertions.append(str(i+1))
+            for number_player, player in enumerate(all_players):
+                display_msg = display_msg + f"{str(number_player+1)} - {player['first_name']} {player['name']}\n"
+                assertions.append(str(number_player+1))
 
             user_input = int(self.get_user_entry(
                 msg_display=display_msg,
