@@ -47,8 +47,9 @@ class LoadPlayer(View):
 
         all_players = load_db("players")
         serialized_loaded_players = []
-        for total_players in range(nb_players_to_load):
-            print(f"Plus que {str(nb_players_to_load - total_players)} joueurs à charger.")
+        unique_players = 0
+        while unique_players < nb_players_to_load:
+            print(f"Plus que {str(nb_players_to_load - unique_players)} joueurs à charger.")
             display_msg = "Choisir un joueur:\n"
 
             assertions = []
@@ -64,8 +65,8 @@ class LoadPlayer(View):
             ))
             if all_players[user_input-1] not in serialized_loaded_players:
                 serialized_loaded_players.append(all_players[user_input-1])
+                unique_players += 1
             else:
                 print("Joueur déjà chargé. Merci de choisir un autre joueur.")
-                nb_players_to_load += 1
 
         return serialized_loaded_players

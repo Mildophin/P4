@@ -2,6 +2,9 @@ import random
 
 
 class Match:
+    """
+    Classe Match
+    """
     def __init__(self, name, players_pair):
         self.player1 = players_pair[0]
         self.score_player1 = 0
@@ -17,6 +20,9 @@ class Match:
                 [self.player2, self.score_player2])
 
     def assign_colors(self):
+        """
+        Methode qui donne une couleur a chaque joueur d'un match
+        """
         if random.choice([True, False]):
             self.color_player1 = "Blanc"
             self.color_player2 = "Noir"
@@ -25,6 +31,9 @@ class Match:
             self.color_player2 = "Blanc"
 
     def play_match(self, winner):
+        """
+        Methode qui permet de faire jouer les joueurs et assigner un score
+        """
         if winner == "0":
             self.winner = self.player1.first_name
             self.score_player1 += 1
@@ -44,6 +53,9 @@ class Match:
         self.player2.tournament_score += self.score_player2
 
     def get_serialized_match(self):
+        """
+        Methode qui permet de transformer les matchs sérialisés en instance
+        """
         return {
             "player1": self.player1.get_serialized_player(save_tournament_score=True),
             "score_player1": self.score_player1,

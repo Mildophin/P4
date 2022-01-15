@@ -126,7 +126,6 @@ class MainMenu(View):
         )
         if user_input == "0":
             for ranking_number, player in enumerate(rankings):
-                print(player.name)
                 update_rankings(player, ranking_number + 1)
 
         elif user_input == "1":

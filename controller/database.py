@@ -8,6 +8,9 @@ from models.match import Match
 
 
 def save_db(db_name, serialized_data):
+    """
+    Fonction qui enregistre les infos données dans la base de données correspondante
+    """
     Path("data/").mkdir(exist_ok=True)
     try:
         db = TinyDB(f"data/{db_name}.json")
@@ -21,6 +24,9 @@ def save_db(db_name, serialized_data):
 
 
 def update_db(db_name, serialized_data):
+    """
+    Fonction qui met à jour les infos données dans la base de données correspondante
+    """
     db = TinyDB(f"data/{db_name}.json")
     db.update(
         serialized_data,
@@ -30,6 +36,9 @@ def update_db(db_name, serialized_data):
 
 
 def update_player_rank(db_name, serialized_data):
+    """
+    Fonction qui met a jour le rang des joueurs donnés dans la base de données correspondante
+    """
     db = TinyDB(f"data/{db_name}.json")
     db.update(
             {'rank': serialized_data['rank'], 'total_score': serialized_data['total_score']},
@@ -39,11 +48,17 @@ def update_player_rank(db_name, serialized_data):
 
 
 def load_db(db_name):
+    """
+    Fonction qui enregistre les infos données dans la base de données correspondante
+    """
     db = TinyDB(f"data/{db_name}.json")
     return db.all()
 
 
 def load_player(serialized_player, load_tournament_score=False):
+    """
+    Fonction qui met a jour le joueur sélectionné
+    """
     player = Player(
         serialized_player["name"],
         serialized_player["first_name"],
@@ -58,6 +73,9 @@ def load_player(serialized_player, load_tournament_score=False):
 
 
 def load_tournament(serialized_tournament):
+    """
+    Fonction qui instancie le tournoi donné
+    """
     loaded_tournament = Tournament(
         serialized_tournament["name"],
         serialized_tournament["place"],
@@ -73,7 +91,9 @@ def load_tournament(serialized_tournament):
 
 
 def load_rounds(serialized_tournament, tournament):
-
+    """
+    Fonction qui instancie les rounds donnés
+    """
     loaded_rounds = []
 
     # Re-création des pairs avec les instances joueurs créées lors du chargement du tournoi
@@ -100,7 +120,9 @@ def load_rounds(serialized_tournament, tournament):
 
 
 def load_match(serialized_match, tournament):
-
+    """
+    Fonction qui instancie les matchs donnés
+    """
     # Re-création des matchs avec les instances joueurs créées lors du chargement du tournoi
     for player in tournament.players:
         if player.name == serialized_match["player1"]["name"]:

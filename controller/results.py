@@ -2,7 +2,9 @@ from views.views import View
 
 
 def result_match(match):
-
+    """
+    Fonction qui permet de choisir du résultat du match
+    """
     # Match joué, on rentre les scores
     winner = View().get_user_entry(
         msg_display=f"{match.player1.first_name} ({match.color_player1}) VS " +

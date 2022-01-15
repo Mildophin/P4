@@ -23,12 +23,18 @@ class Round:
         return self.name
 
     def create_matches(self):
+        """
+        Methode qui permet de créer une instance de match en mettant des pairs ensemble
+        """
         matches = []
         for i, pair in enumerate(self.players_pairs):
             matches.append(Match(name=f"Match {i}", players_pair=pair))
         return matches
 
     def mark_as_complete(self):
+        """
+        Methode fait l'ensemble des opérations d'un match, permet d'obtenir les résultats
+        """
         self.end_date = get_timestamp()
         print(f"{self.end_date} : {self.name} terminé.")
         print("Rentrer les résultats des matchs:")
@@ -38,6 +44,9 @@ class Round:
             match.play_match(winner)
 
     def get_serialized_round(self):
+        """
+        Methode qui permet de transformer les rounds sérialisés en instance
+        """
         ser_players_pairs = []
         for pair in self.players_pairs:
             ser_players_pairs.append(

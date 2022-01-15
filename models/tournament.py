@@ -16,12 +16,17 @@ class Tournament:
         return f"Tournoi: {self.name}"
 
     def create_round(self, round_number):
+        """
+        Methode qui permet de créer une instance de round
+        """
         players_pairs = self.create_players_pairs(current_round=round_number)
         round = Round("Round " + str(round_number + 1), players_pairs)
         self.rounds.append(round)
 
     def create_players_pairs(self, current_round):
-
+        """
+        Methode qui permet de créer les pairs de joueurs, algorithme qui permet de changer les assignations de match
+        """
         # Premier round, on trie les joueurs par rang
         if current_round == 0:
             sorted_players = sorted(self.players, key=lambda x: x.rank, reverse=True)
@@ -89,9 +94,10 @@ class Tournament:
         return players_pairs
 
     def get_rankings(self, by_score=True):
-
-        # Par défaut, on retourne le classement du tournoi par rapport aux points marqués par
-        # chaque joueurs
+        """
+        Methode qui permet de retourne le classement du tournoi par rapport aux points marqués par
+        chaque joueur
+        """
         if by_score:
             sorted_players = sorted(self.players, key=lambda x: x.tournament_score, reverse=True)
         else:

@@ -7,7 +7,9 @@ from controller.database import save_db, update_db, load_player, load_tournament
 
 
 def create_tournament():
-
+    """
+    Methode qui permet la création d'un tournoi
+    """
     menu = View()
     # Récupération des infos du tournoi
     user_entries = CreateTournament().display_menu()
@@ -25,7 +27,7 @@ def create_tournament():
         players = []
         user_input = menu.get_user_entry(
             msg_display="Charger combien de joueurs ?\n> ",
-            msg_error="Entrez 0 ou 1.",
+            msg_error="Ce chiffre doit être un entier positif",
             value_type="numeric"
         )
         serialized_players = LoadPlayer().display_menu(
@@ -59,7 +61,9 @@ def create_tournament():
 
 
 def play_tournament(tournament, new_tournament_loaded=False):
-
+    """
+    Fonction qui permet de jouer un tournoi, fait le passage des rounds et donne le résultat final
+    """
     menu = View()
     print()
     print(f"Début du tournoi {tournament.name}")

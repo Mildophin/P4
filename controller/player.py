@@ -4,7 +4,9 @@ from views.player import CreatePlayer
 
 
 def create_player():
-
+    """
+    Methode qui permet la création d'un instance de joueur
+    """
     # Récupération des infos du joueur
     user_entries = CreatePlayer().display_menu()
 
@@ -27,6 +29,9 @@ def create_player():
 
 
 def update_rankings(player, rank, score=True):
+    """
+    Methode qui permet la mise a jour du classement d'un joueur
+    """
     if score:
         player.total_score += player.tournament_score
     player.rank = rank
